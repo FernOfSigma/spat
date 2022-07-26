@@ -1,0 +1,16 @@
+[package]
+name = "spat"
+version = "0.1.0"
+authors = ["FernOfSigma <fernofsigma@tuta.io>"]
+edition = "2021"
+description = "A tool for shortening UNIX-like paths."
+repository = "https://github.com/FernOfSigma/spat"
+documentation = "https://docs.rs/spat"
+readme = "README.md"
+license = "MIT"
+keywords = ["cli", "file", "filesystem", "utility"]
+categories = ["command-line-utilities", "filesystem"]
+
+[dependencies.clap]
+version = "3.2"
+features = ["cargo"]
