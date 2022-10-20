@@ -1,4 +1,9 @@
-# SPAT!
+
+# Disclaimer!
+
+This is a hobby project I made to learn more about rust.
+
+# What is spat?
 
 `spat` is primarily a command-line tool for shortening UNIX-like paths.
 Additionally, it provides a [library function](https://docs.rs/spat) which

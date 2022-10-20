@@ -13,6 +13,8 @@ use std::path::{Path, PathBuf};
 ///
 /// # Example
 /// ```rust
+/// use std::path::Path;
+///
 /// let my_path = Path::new("/home/sigma/.cargo/bin");
 /// let shorter = spat::shorten(my_path);
 /// println!("{}", shorter.display());
@@ -22,27 +24,24 @@ pub fn shorten(path: &Path) -> PathBuf {
     let mut components = path.components().collect::<Vec<_>>();
     let basename = components.pop();
 
-    let mut result = PathBuf::new();
+    let mut shortened = PathBuf::new();
 
     for component in components.into_iter() {
-        let mut temp = String::new();
+        let mut s = String::new();
         // Iterate until a character other than '.' is found. This accounts for
         // hidden, relative, and rare directories such as '....' made by sickos.
         for ch in component.as_os_str().to_string_lossy().chars() {
-            temp.push(ch);
+            s.push(ch);
             if ch == '.' {
                 continue;
             }
             break;
         }
-        result.push(temp);
+        shortened.push(s);
     }
 
-    if let Some(component) = basename {
-        result.push(component);
-    }
-
-    result
+    shortened.extend(basename);
+    shortened
 }
 
 #[cfg(test)]
