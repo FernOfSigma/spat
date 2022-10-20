@@ -1,6 +1,6 @@
 [package]
 name = "spat"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["FernOfSigma <fernofsigma@tuta.io>"]
 edition = "2021"
 description = "A tool for shortening UNIX-like paths."
