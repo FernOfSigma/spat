@@ -4,41 +4,31 @@
 //! Shortens UNIX-like paths.
 
 use std::path::{Path, PathBuf};
+use itertools::Itertools;
 
-/// This accepts a [`Path`](https://doc.rust-lang.org/std/path/struct.Path.html)
-/// and shortens each of its components to their first chatacters, only leaving
-/// the last component unmodified.
+/// Takes a reference to a [`Path`] and shortens all but its last component to their
+/// first characters. Dots (`.`) are left as is since they might refer to hidden or
+/// relative paths.
 ///
-/// Dots (`.`) are left unchanged as they may refer to hidden or relative paths.
+/// [`Path`]: https://doc.rust-lang.org/std/path/struct.Path.html
 ///
 /// # Example
 /// ```rust
-/// use std::path::Path;
+/// use spat::shorten;
 ///
-/// let my_path = Path::new("/home/sigma/.cargo/bin");
-/// let shorter = spat::shorten(my_path);
-/// println!("{}", shorter.display());
-/// // Output: /h/s/.c/bin
+/// fn main() {
+///     let shortened = shorten("/path/to/something");
+///     assert_eq!(shortened.as_os_str(), "/p/t/something");
+/// }
 /// ```
-pub fn shorten(path: &Path) -> PathBuf {
-    let mut components = path.components().collect::<Vec<_>>();
+pub fn shorten(path: impl AsRef<Path>) -> PathBuf{
+    let mut components = path.as_ref().components().collect::<Vec<_>>();
     let basename = components.pop();
 
-    let mut shortened = PathBuf::new();
-
-    for component in components.into_iter() {
-        let mut s = String::new();
-        // Iterate until a character other than '.' is found. This accounts for
-        // hidden, relative, and rare directories such as '....' made by sickos.
-        for ch in component.as_os_str().to_string_lossy().chars() {
-            s.push(ch);
-            if ch == '.' {
-                continue;
-            }
-            break;
-        }
-        shortened.push(s);
-    }
+    let mut shortened = components.into_iter()
+        .map(|component| component.as_os_str().to_string_lossy())
+        .map(|s| s.chars().take_while_inclusive(|c| c == &'.').collect::<String>())
+        .collect::<PathBuf>();
 
     shortened.extend(basename);
     shortened
@@ -49,28 +39,31 @@ mod tests {
     use super::*;
 
     fn compare(s1: &str, s2: &str) {
-        assert_eq!(shorten(Path::new(s1)).to_string_lossy(), s2);
+        assert_eq!(shorten(s1).as_os_str(), s2);
     }
 
     #[test]
-    fn basic() {
+    fn symbols() {
         compare("~", "~");
         compare("/", "/");
         compare(".", ".");
     }
 
     #[test]
-    fn normal() {
+    fn standard() {
+        compare("~/sigma/dev/rust/", "~/s/d/rust");
         compare("/home/sigma/dev/rust/", "/h/s/d/rust");
+        compare("home/sigma/dev/rust/", "h/s/d/rust");
     }
 
     #[test]
     fn hidden() {
-        compare("~/.cargo/bin", "~/.c/bin");
+        compare("~/.cargo/bin/", "~/.c/bin");
     }
 
     #[test]
-    fn relative() {
-        compare("./files/music/../video", "./f/m/../video");
+    fn dots() {
+        compare("./music/../videos/1.mkv", "./m/../v/1.mkv");
     }
 }
+

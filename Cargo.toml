@@ -3,7 +3,7 @@ name = "spat"
 version = "0.1.1"
 authors = ["FernOfSigma <fernofsigma@tuta.io>"]
 edition = "2021"
-description = "A tool for shortening UNIX-like paths."
+description = "Utility for shortening UNIX-like paths."
 repository = "https://github.com/FernOfSigma/spat"
 documentation = "https://docs.rs/spat"
 readme = "README.md"
@@ -11,6 +11,20 @@ license = "MIT"
 keywords = ["cli", "file", "filesystem", "utility"]
 categories = ["command-line-utilities", "filesystem"]
 
-[dependencies.clap]
-version = "3.2"
-features = ["cargo"]
+[dependencies]
+pico-args = { version = "0.5.0", optional = true }
+itertools = "0.11.0"
+
+[features]
+default = ["cli"]
+cli = ["pico-args"]
+
+[[bin]]
+name = "spat"
+required-features = ["cli"]
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
