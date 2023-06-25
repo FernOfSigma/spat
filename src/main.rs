@@ -12,7 +12,7 @@ OPTIONS:
 
 const USAGE: &str = "\
 error: missing required argument <DIR>
-try --help for more information";
+try -h or --help for more information";
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
