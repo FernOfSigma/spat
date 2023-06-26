@@ -4,6 +4,7 @@
 //! Shortens UNIX-like paths.
 
 use std::path::{Path, PathBuf};
+
 use itertools::Itertools;
 
 /// Takes a reference to a [`Path`] and shortens all but its last component to their
