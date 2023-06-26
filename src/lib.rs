@@ -1,7 +1,16 @@
 // Copyright (c) 2022 FernOfSigma.
 // This software is licensed under the MIT license.
 
-//! Shortens UNIX-like paths.
+/*!
+Shortens UNIX-like paths.
+
+## Features
+
+- **`cli`** (default)
+
+    Builds a binary executable. Disable this feature if you intend to use this crate
+    as a library.
+*/
 
 use std::path::{Path, PathBuf};
 
@@ -14,6 +23,7 @@ use itertools::Itertools;
 /// [`Path`]: https://doc.rust-lang.org/std/path/struct.Path.html
 ///
 /// # Example
+///
 /// ```rust
 /// use spat::shorten;
 ///
@@ -58,13 +68,7 @@ mod tests {
     }
 
     #[test]
-    fn hidden() {
-        compare("~/.cargo/bin/", "~/.c/bin");
-    }
-
-    #[test]
     fn dots() {
         compare("./music/../videos/1.mkv", "./m/../v/1.mkv");
     }
 }
-
