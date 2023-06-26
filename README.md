@@ -20,12 +20,7 @@ $ spat ~/.local/share/cargo/bin
 
 ## Library
 
-Run this to use `spat::shorten` without installing the binary.
-```console
-$ cargo add spat --no-default-features
-```
-
-Alternatively, add this line to `[dependencies]` in your `Cargo.toml` file.
 ```toml
+[dependencies]
 spat = { version = 0.2, default-features = false }
 ```
