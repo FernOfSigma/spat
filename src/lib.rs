@@ -24,13 +24,9 @@ use itertools::Itertools;
 ///
 /// # Example
 ///
-/// ```rust
-/// use spat::shorten;
-///
-/// fn main() {
-///     let shortened = shorten("/path/to/something");
-///     assert_eq!(shortened.as_os_str(), "/p/t/something");
-/// }
+/// ```
+/// let shortened = spat::shorten("/path/to/something");
+/// assert_eq!(shortened.as_os_str(), "/p/t/something");
 /// ```
 pub fn shorten(path: impl AsRef<Path>) -> PathBuf{
     let mut components = path.as_ref().components().collect::<Vec<_>>();

@@ -41,12 +41,6 @@ fn parse_arg() -> String {
         exit(1);
     }
 
-    // Sanity check for all arguments being parsed.
-    let unused_args = args.finish();
-    if !unused_args.is_empty() {
-        panic!("unused argument(s): {unused_args:?}");
-    }
-
     arg
 }
 
