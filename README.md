@@ -1,7 +1,11 @@
 # Spat 𐃸
 
+[<img alt="crates.io" src="https://img.shields.io/crates/v/spat?style=for-the-badge">](https://crates.io/crates/spat)
+[<img alt="docs.rs" src="https://img.shields.io/docsrs/spat?style=for-the-badge">](https://docs.rs/spat/latest/spat)
+
+
 This is a command-line utility for shortening UNIX-like paths which also provides
-the [`spat::shorten`](https://docs.rs/spat) function capable of doing the same.
+the [`spat::shorten`](https://docs.rs/spat/latest/spat/fn.shorten.html) function capable of doing the same.
 
 ## Install
 
